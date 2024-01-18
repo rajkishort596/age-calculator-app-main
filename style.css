@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,400;1,800&display=swap");
+:root {
+  /* primary colors  */
+  --Purple: hsl(259, 100%, 65%);
+  --Light-red: hsl(0, 100%, 67%);
+  /* Neutral*/
+  --White: hsl(0, 0%, 100%);
+  --Off-white: hsl(0, 0%, 94%);
+  --Light-grey: hsl(0, 0%, 86%);
+  --Smokey-grey: hsl(0, 1%, 44%);
+  --Off-black: hsl(0, 0%, 8%);
+}
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body,
+html {
+  height: 100vh;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+/* Utility classes */
+.flex {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 25px;
+}
+.flex-col {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+.main {
+  width: 100%;
+  height: 100vh;
+  padding: 80px 15px;
+  background-color: var(--Off-white);
+}
+.main-container {
+  padding-inline: 25px;
+  background-color: var(--White);
+  border-radius: 25px 25px 80px 25px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.Date-of-birth {
+  width: 100%;
+  padding: 30px 0px;
+  border-bottom: 1px solid var(--Smokey-grey);
+  position: relative;
+}
+.input-group input {
+  width: 100%;
+  max-width: 150px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--Smokey-grey);
+  font-family: inherit;
+  font-size: 1.21rem;
+  font-weight: 700;
+  outline: none;
+}
+/* .input-group input:focus {
+  outline: none;
+} */
+.input-group span {
+  font-size: 1rem;
+  color: var(--Smokey-grey);
+  letter-spacing: 1px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+span.error {
+  color: var(--Light-red);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 0.75rem;
+  visibility: hidden;
+}
+.arrow-icon {
+  position: absolute;
+  bottom: -20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--Purple);
+  border-radius: 50%;
+  padding: 10px;
+}
+.age-output {
+  padding: 30px 0px;
+}
+.age-output .years,
+.months,
+.days {
+  font-size: 2rem;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--Off-black);
+}
+.age-output .years-count,
+.months-count,
+.days-count {
+  color: var(--Purple);
+}
+@media screen and (min-width: 714px) {
+  .input-group input {
+    font-size: 2rem;
+  }
+
+  .input-group span {
+    font-size: 2rem;
+  }
+  span.error {
+    font-size: 1rem;
+  }
+  .age-output .years,
+  .months,
+  .days {
+    font-size: 3rem;
+  }
+  .arrow-icon {
+    left: 95%;
+    bottom: -15%;
+  }
+}
