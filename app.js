@@ -33,7 +33,6 @@ const validateDate = () => {
   const inputDate = dateInput.value.trim(); // Trim to handle whitespace
   const inputMonth = monthInput.value;
   const inputYear = yearInput.value;
-
   if (inputDate === "") {
     dayError.textContent = "This field is required";
     dayMark.style.color = errorColor;
@@ -43,7 +42,10 @@ const validateDate = () => {
   } else if (
     isNaN(inputDate) ||
     inputDate < 1 ||
-    inputDate > getMaxDaysInMonth(inputMonth, inputYear, isLeapYear(inputYear))
+    inputDate >
+      getMaxDaysInMonth(inputMonth, inputYear, isLeapYear(inputYear)) ||
+    (inputMonth - 1 == currentDate.getMonth() &&
+      inputDate > currentDate.getDate())
   ) {
     dayError.textContent = "Invalid day";
     dateInput.style.border = errorBorder;
@@ -66,12 +68,26 @@ const validateMonth = () => {
     monthMark.style.color = errorColor;
     monthError.style.visibility = "visible";
     validMonth = false;
-  } else if (inputMonth < 1 || inputMonth > 12 || isNaN(inputMonth)) {
+  } else if (
+    inputMonth < 1 ||
+    inputMonth > 12 ||
+    isNaN(inputMonth) ||
+    (yearInput.value == currentDate.getFullYear() &&
+      inputMonth - 1 > currentDate.getMonth())
+  ) {
     monthError.textContent = "Invalid month";
     monthInput.style.border = errorBorder;
     monthMark.style.color = errorColor;
     monthError.style.visibility = "visible";
     validMonth = false;
+    // } else if (yearInput.value == currentDate.getFullYear()) {
+    //   if (inputMonth - 1 > currentDate.getMonth()) {
+    //     monthError.textContent = "Invalid mahina";
+    //     monthInput.style.border = errorBorder;
+    //     monthMark.style.color = errorColor;
+    //     monthError.style.visibility = "visible";
+    //     validMonth = false;
+    //   }
   } else {
     // Update the max attribute of dateInput based on the selected month
     updateMaxDaysInDateInput(
@@ -95,7 +111,11 @@ const validateYear = () => {
     yearMark.style.color = errorColor;
     yearError.style.visibility = "visible";
     validYear = false;
-  } else if (inputYear < currentDate.getFullYear() - 100 || isNaN(inputYear)) {
+  } else if (
+    inputYear < currentDate.getFullYear() - 100 ||
+    inputYear > currentDate.getFullYear() ||
+    isNaN(inputYear)
+  ) {
     yearError.textContent = "Invalid year";
     yearInput.style.border = errorBorder;
     yearMark.style.color = errorColor;
@@ -169,6 +189,7 @@ monthInput.addEventListener("input", () => {
 });
 yearInput.addEventListener("input", () => {
   validateYear();
+  validateMonth();
   validateDate(); // Validate date when year changes
   calculateAge();
 });
