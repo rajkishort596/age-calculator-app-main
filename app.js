@@ -2,7 +2,7 @@ const errorBorder = "2px solid hsl(0, 100%, 67%)";
 const correctBorder = "2px solid hsl(259, 100%, 65%)";
 const errorColor = "hsl(0, 100%, 67%)";
 const correctColor = "hsl(0, 1%, 44%)";
-//selecting input group spans
+//  selecting input group spans
 const dayMark = document.querySelector(".day");
 const monthMark = document.querySelector(".month");
 const yearMark = document.querySelector(".year");
@@ -28,11 +28,10 @@ let validYear = false;
 const isLeapYear = (year) => {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 };
-
 const validateDate = () => {
-  const inputDate = dateInput.value.trim(); // Trim to handle whitespace
-  const inputMonth = monthInput.value;
-  const inputYear = yearInput.value;
+  const inputDate = parseInt(dateInput.value.trim()); // Trim to handle whitespace
+  const inputMonth = parseInt(monthInput.value);
+  const inputYear = parseInt(yearInput.value);
   if (inputDate === "") {
     dayError.textContent = "This field is required";
     dayMark.style.color = errorColor;
@@ -42,10 +41,8 @@ const validateDate = () => {
   } else if (
     isNaN(inputDate) ||
     inputDate < 1 ||
-    inputDate >
-      getMaxDaysInMonth(inputMonth, inputYear, isLeapYear(inputYear)) ||
-    (inputMonth - 1 == currentDate.getMonth() &&
-      inputDate > currentDate.getDate())
+    inputDate > 31 ||
+    inputDate > getMaxDaysInMonth(inputMonth, inputYear, isLeapYear(inputYear))
   ) {
     dayError.textContent = "Invalid day";
     dateInput.style.border = errorBorder;
@@ -61,7 +58,7 @@ const validateDate = () => {
 };
 
 const validateMonth = () => {
-  const inputMonth = monthInput.value;
+  const inputMonth = parseInt(monthInput.value);
   if (inputMonth === "") {
     monthError.textContent = "This field is required";
     monthInput.style.border = errorBorder;
@@ -80,14 +77,6 @@ const validateMonth = () => {
     monthMark.style.color = errorColor;
     monthError.style.visibility = "visible";
     validMonth = false;
-    // } else if (yearInput.value == currentDate.getFullYear()) {
-    //   if (inputMonth - 1 > currentDate.getMonth()) {
-    //     monthError.textContent = "Invalid mahina";
-    //     monthInput.style.border = errorBorder;
-    //     monthMark.style.color = errorColor;
-    //     monthError.style.visibility = "visible";
-    //     validMonth = false;
-    //   }
   } else {
     // Update the max attribute of dateInput based on the selected month
     updateMaxDaysInDateInput(
@@ -104,7 +93,7 @@ const validateMonth = () => {
 };
 
 const validateYear = () => {
-  const inputYear = yearInput.value;
+  const inputYear = parseInt(yearInput.value);
   if (inputYear === "") {
     yearError.textContent = "This field is required";
     yearInput.style.border = errorBorder;
@@ -170,11 +159,12 @@ const calculateAge = () => {
 const updateMaxDaysInDateInput = (month, year, isLeap) => {
   // Update the max attribute of dateInput based on the selected month and leap year
   const maxDays = getMaxDaysInMonth(month, year, isLeap);
-  // dateInput.setAttribute("max", maxDays);
 };
 
 const getMaxDaysInMonth = (month, year, isLeap) => {
-  return isLeap && month === 2 ? 29 : new Date(year, month, 0).getDate();
+  if (year === currentDate.getFullYear()) {
+    return currentDate.getDate();
+  } else return isLeap && month === 2 ? 29 : new Date(year, month, 0).getDate();
 };
 
 // Event listeners for input fields
@@ -189,7 +179,7 @@ monthInput.addEventListener("input", () => {
 });
 yearInput.addEventListener("input", () => {
   validateYear();
-  validateMonth();
+  validateMonth(); // Validate month when year changes
   validateDate(); // Validate date when year changes
   calculateAge();
 });
